@@ -34,15 +34,25 @@ twodays <- rbind(day1, day2)
 # Clean up a bit 
 rm(day1, day2, hpc)
 
-twodays <- mutate(twodays, Sub_metering_1 = as.numeric(as.character(twodays$Sub_metering_1)), 
+# Fix all the variables to be numeric. Should have done this from the beginning.
+twodays <- mutate(twodays, 
+                  Global_active_power = as.numeric(as.character(twodays$Global_active_power)),
+                  Global_reactive_power = as.numeric(as.character(twodays$Global_reactive_power)),
+                  Voltage = as.numeric(as.character(twodays$Voltage)),
+                  Global_intensity = as.numeric(as.character(twodays$Global_intensity)),
+                  Sub_metering_1 = as.numeric(as.character(twodays$Sub_metering_1)), 
                   Sub_metering_2 = as.numeric(as.character(twodays$Sub_metering_2)),
                   Sub_metering_3 = as.numeric(as.character(twodays$Sub_metering_3)))
-
+# Open the PNG device
 png(filename = "./ExData_Plotting1/plot3.png", width = 480, height = 480)
+
+# Build the plot
 with(twodays, plot(Date, Sub_metering_1, xlab="", ylab = "Energy sub metering", type="n"))
 with(twodays, lines(Date, Sub_metering_1, col="black"))
 with(twodays, lines(Date, Sub_metering_2, col="red"))
 with(twodays, lines(Date, Sub_metering_3, col="blue"))
 legend("topright", col = c("black", "red", "blue"), lty=c(1,1,1), lwd=2, legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"))
+
+# close the device and write the file.
 dev.off()
 

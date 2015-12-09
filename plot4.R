@@ -33,7 +33,7 @@ day2 <- filter(hpc, as.Date(Date)=="2007-02-02")
 twodays <- rbind(day1, day2)
 # Clean up a bit 
 rm(day1, day2, hpc)
-
+# Fix all the variables to be numeric. Should have done this from the beginning.
 twodays <- mutate(twodays, 
                   Global_active_power = as.numeric(as.character(twodays$Global_active_power)),
                   Global_reactive_power = as.numeric(as.character(twodays$Global_reactive_power)),
@@ -43,17 +43,24 @@ twodays <- mutate(twodays,
                   Sub_metering_2 = as.numeric(as.character(twodays$Sub_metering_2)),
                   Sub_metering_3 = as.numeric(as.character(twodays$Sub_metering_3)))
 
+# Open the plot device
 png(filename = "./ExData_Plotting1/plot4.png", width = 480, height = 480)
+# set the plot parameters
 par(mfcol = c(2,2))
 # Top Left
-plot(twodays$Global_active_power ~ twodays$Date, type="l", xlab="", ylab = "Global Active Power (kilowatts)")
+plot(twodays$Global_active_power ~ twodays$Date, type="l", xlab="", ylab = "Global Active Power")
 # Bottom Left
 with(twodays, plot(Date, Sub_metering_1, xlab="", ylab = "Energy sub metering", type="n"))
 with(twodays, lines(Date, Sub_metering_1, col="black"))
 with(twodays, lines(Date, Sub_metering_2, col="red"))
 with(twodays, lines(Date, Sub_metering_3, col="blue"))
 legend("topright", bty="n",col = c("black", "red", "blue"), lty=c(1,1,1), lwd=2, legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"))
-
+# Top Right
+with(twodays, plot(Date, Voltage, type="l", xlab="datetime", ylab = "Voltage"))
+# Bottom Right
+with(twodays, plot(Date, Global_reactive_power, type="l", xlab="datetime", ylab = "Global_reactive_power", ylim = c(0,0.5)))
+# Close the device and write the file.
+dev.off()
 
 
 

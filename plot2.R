@@ -34,7 +34,11 @@ twodays <- rbind(day1, day2)
 # Clean up a bit 
 rm(day1, day2, hpc)
 
+# convert Global Active Power to numeric
 gap<-as.numeric(as.character(twodays$Global_active_power))
+# Open the PNG device
 png(filename = "./ExData_Plotting1/plot2.png", width = 480, height = 480)
+# Plot the data
 plot(gap ~ twodays$Date, type="l", xlab="", ylab = "Global Active Power (kilowatts)")
+# Close the device and write the plot
 dev.off()
